@@ -1,4 +1,4 @@
-package com.macorrales.advent2022;
+package com.macorrales.advent2022.day04;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class OverlapFinderTest {
 
@@ -24,7 +24,8 @@ class OverlapFinderTest {
             11-17,11-17:true
             """, delimiter = ':')
     void testAll(String pair, boolean result) {
-        assertEquals(result, overlapFinder.fullOverlap(pair));
+        var assignments = OverlapFinder.ElfPairAssignment.parse(pair);
+        assertEquals(result, overlapFinder.fullOverlap(assignments));
 
     }
 
@@ -50,7 +51,8 @@ class OverlapFinderTest {
             2-6,4-8:true
             """, delimiter = ':')
     void testAllPartialOverlaps(String pair, boolean result) {
-        assertEquals(result,overlapFinder.overlap(pair));
+        var assignments = OverlapFinder.ElfPairAssignment.parse(pair);
+        assertEquals(result, overlapFinder.overlap(assignments));
     }
 
 

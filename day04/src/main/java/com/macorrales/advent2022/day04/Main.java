@@ -1,4 +1,4 @@
-package com.macorrales.advent2022;
+package com.macorrales.advent2022.day04;
 
 import java.io.IOException;
 import java.nio.file.Files;
