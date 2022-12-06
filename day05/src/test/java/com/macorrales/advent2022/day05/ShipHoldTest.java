@@ -24,12 +24,23 @@ class ShipHoldTest {
 
     @Test
     void aHoldWithSeveralStacksTopIsAllTopBoxesLetters(){
-        ShipHold shipHold = new ShipHold();
-        shipHold.addStack(1,List.of('A','B','C'));
-        shipHold.addStack(2,List.of('A','B'));
-        shipHold.addStack(3,List.of('A'));
-        assertEquals("CBA",shipHold.top());
+        ShipHold shipHold = buildSampleShipHold();
+        assertEquals("NDP",shipHold.top());
     }
 
+    private static ShipHold buildSampleShipHold() {
+        ShipHold shipHold = new ShipHold();
+        shipHold.addStack(1,List.of('Z','N'));
+        shipHold.addStack(2,List.of('M','C','D'));
+        shipHold.addStack(3,List.of('P'));
+        return shipHold;
+    }
 
+    @Test
+    void shouldMoveOneBoxOnCommand(){
+        // move 1 from 2 to 1
+        var shipHold = buildSampleShipHold();
+        shipHold.execute("move 1 from 2 to 1");
+        assertEquals("DCP",shipHold.top());
+    }
 }
