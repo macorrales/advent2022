@@ -18,16 +18,18 @@ class ShipHoldTest {
     @Test
     void aHoldWithOneStackTopIsTopBoxLetter(){
         ShipHold shipHold = new ShipHold();
-        shipHold.addStack(List.of('A','B','C'));
+        shipHold.addStack(1,List.of('A','B','C'));
         assertEquals("C",shipHold.top());
     }
 
     @Test
     void aHoldWithSeveralStacksTopIsAllTopBoxesLetters(){
         ShipHold shipHold = new ShipHold();
-        shipHold.addStack(List.of('A','B','C'));
-        shipHold.addStack(List.of('A','B'));
-        shipHold.addStack(List.of('A'));
+        shipHold.addStack(1,List.of('A','B','C'));
+        shipHold.addStack(2,List.of('A','B'));
+        shipHold.addStack(3,List.of('A'));
         assertEquals("CBA",shipHold.top());
     }
+
+
 }

@@ -1,22 +1,21 @@
 package com.macorrales.advent2022.day05;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class ShipHold {
 
-    List<Stack<Character>> stacks = new ArrayList<>();
+    SortedMap<Integer,Stack<Character>> stacks = new TreeMap<>();
     public String top() {
-        return stacks.stream()
+        return stacks.values().stream()
                 .map(Stack::peek)
                 .map(String::valueOf)
-                .reduce("", (s, c) -> s + c);
+                .reduce("",String::concat);
     }
 
-    public void addStack(List<Character> boxes) {
+    public void addStack(int id,List<Character> boxes) {
         Stack<Character> stack = new Stack<>();
         boxes.stream().forEach(stack::push);
-        stacks.add(stack);
+        stacks.put(id,stack);
     }
 }
+
