@@ -8,11 +8,10 @@ public record Command (int amount, int from, int to ) {
         int from = extractValue(s,"from");
         int to = extractValue(s,"to");
         return new Command(amount,from,to);
-
     }
 
     private static int extractValue(String s, String tag) {
-        var p = Pattern.compile("(?<=" + tag + " )([1-9]*)");
+        var p = Pattern.compile("(?<=" + tag + " )([0-9]*)");
         var m = p.matcher(s);
         m.find();
         var value = m.group();

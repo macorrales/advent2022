@@ -8,10 +8,10 @@ class CommandTest {
 
     @Test
     void shouldParseValuesProperly(){
-        var cmd = Command.parseCommand("move 1 from 2 to 3");
-        assertEquals(1,cmd.amount());
-        assertEquals(2,cmd.from());
-        assertEquals(3,cmd.to());
+        var cmd = Command.parseCommand("move 13 from 25 to 35");
+        assertEquals(13,cmd.amount());
+        assertEquals(25,cmd.from());
+        assertEquals(35,cmd.to());
     }
 
 }
