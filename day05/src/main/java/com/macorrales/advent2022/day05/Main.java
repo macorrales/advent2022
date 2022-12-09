@@ -8,6 +8,23 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String... args) throws IOException {
+        ShipHold shipHold = initiate();
+
+        List<String> assignments = Files.readAllLines(Path.of(args[0]));
+        assignments.stream()
+                .skip(10)
+                .forEach(shipHold::executeCrane9000);
+        System.out.println(shipHold.top());
+
+        shipHold = initiate();
+        assignments.stream()
+                .skip(10)
+                .forEach(shipHold::executeCrane9001);
+        System.out.println(shipHold.top());
+
+    }
+
+    private static ShipHold initiate() {
         var shipHold = new ShipHold();
         shipHold.addStack(1, from("BZT"));
         shipHold.addStack(2, from("VHTDN"));
@@ -18,16 +35,13 @@ public class Main {
         shipHold.addStack(7, from("ZSNRLTCW"));
         shipHold.addStack(8, from("ZHWDJNRM"));
         shipHold.addStack(9, from("MQLFDS"));
-
-        List<String> assignments = Files.readAllLines(Path.of(args[0]));
-        assignments.stream()
-                .skip(10)
-                .forEach(shipHold::execute);
-        System.out.println(shipHold.top());
+        return shipHold;
     }
 
     private static List<Character> from(String s) {
-        return s.chars().mapToObj(i -> Character.valueOf((char) i)).collect(Collectors.toList());
+        return s.chars()
+                .mapToObj(i -> Character.valueOf((char) i))
+                .collect(Collectors.toList());
 
     }
 }

@@ -4,7 +4,7 @@ import java.util.*;
 
 public class ShipHold {
 
-    SortedMap<Integer, Deque<Character>> stacks = new TreeMap<>();
+    public SortedMap<Integer, Deque<Character>> stacks = new TreeMap<>();
     public String top() {
         return stacks.values().stream()
                 .map(Deque::peek)
@@ -18,15 +18,28 @@ public class ShipHold {
         stacks.put(id,stack);
     }
 
-    public void execute(String s) {
+    public void executeCrane9000(String s) {
 
-        System.out.println(s);
         var cmd = Command.parseCommand(s);
+        // do it "amount" of boxes
         var from = stacks.get(cmd.from());
         var to = stacks.get(cmd.to());
-        // do it "amount" of boxes
         for (int i = 0; i < cmd.amount(); i++) {
             to.push(from.pop());
+        }
+    }
+
+    public void executeCrane9001(String s) {
+        var cmd = Command.parseCommand(s);
+        // do it "amount" of boxes
+        var from = stacks.get(cmd.from());
+        var to = stacks.get(cmd.to());
+        var tmp = new ArrayDeque<Character>();
+        for (int i = 0; i < cmd.amount(); i++) {
+            tmp.push(from.pop());
+        }
+        for (int i = 0; i < cmd.amount(); i++) {
+            to.push(tmp.pop());
         }
     }
 
