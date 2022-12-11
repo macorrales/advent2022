@@ -13,7 +13,7 @@ class MonkeyLoaderTest {
 
     @Test
     void shouldLoadSevenMonkeysFromSample() throws IOException {
-        assertEquals(8,monkeyLoader.load(sample()).size());
+        assertEquals(4,monkeyLoader.load(sample()).size());
     }
 
 

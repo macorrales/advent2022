@@ -2,6 +2,8 @@ package com.macorrales.advent2022.day11;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MonkeyTest {
@@ -17,7 +19,7 @@ class MonkeyTest {
                         If false: throw to monkey 3
                     """;
         var monkey = Monkey.of(entry);
-        assertArrayEquals(new long[]{79l,98l},monkey.items());
+        assertEquals(List.of(79l,98l),monkey.items());
         assertEquals(190, monkey.operator().apply(10l));
         assertEquals(23, monkey.divisor());
         assertEquals(2, monkey.positiveTestMonkey());
@@ -47,6 +49,22 @@ class MonkeyTest {
                         If false: throw to monkey 7
                     """;
         assertEquals(17+8,Monkey.of(entry).operator().apply(17l));
+    }
+
+    @Test
+    void shouldThrowAllItems(){
+        var monkey = Monkey.of(   """
+                                            Monkey 2:
+                                              Starting items: 79, 60, 97
+                                              Operation: new = old * old
+                                              Test: divisible by 13
+                                                If true: throw to monkey 1
+                                                If false: throw to monkey 3
+                                            """);
+        assertEquals(3,monkey.turn().size());
+        assertEquals(new Monkey.Throw(1,2080l),monkey.turn().get(0));
+        assertEquals(new Monkey.Throw(3,1200l),monkey.turn().get(1));
+        assertEquals(new Monkey.Throw(3,3136l),monkey.turn().get(2));
     }
 
 }

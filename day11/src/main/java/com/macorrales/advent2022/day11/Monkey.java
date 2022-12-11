@@ -1,9 +1,11 @@
 package com.macorrales.advent2022.day11;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.function.UnaryOperator;
 
-public record Monkey(long[] items, UnaryOperator<Long> operator, long divisor, int positiveTestMonkey,
+public record Monkey(List<Long> items, UnaryOperator<Long> operator, long divisor, int positiveTestMonkey,
                      int negativeTestMonkey) {
     static Monkey  of(String s){
         var lines = s.split("\n");
@@ -40,12 +42,23 @@ public record Monkey(long[] items, UnaryOperator<Long> operator, long divisor, i
         return (l)->l+operand;
     }
 
-    private static long[] parseItems(String[] lines) {
+    private static List<Long> parseItems(String[] lines) {
         return Arrays.stream(lines[1]
                         .replace("  Starting items: ", "")
                         .split(","))
                 .map(String::trim)
-                .mapToLong(Long::parseLong)
-                .toArray();
+                .map(Long::parseLong)
+                .toList();
     }
+
+    public List<Throw> turn() {
+       return items.stream()
+                .map(operator)
+                .map(worry->worry/3l)
+                .map(worry->new Throw((worry%divisor==0)?positiveTestMonkey:negativeTestMonkey,worry))
+                .toList();
+
+    }
+    record Throw (Integer monkey, Long worry){
+     }
 }
