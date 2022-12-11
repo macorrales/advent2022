@@ -45,6 +45,23 @@ public class AppTest
     void longerProgramSumOfSignals(){
         assertEquals(13140,app.sumOfSignals(longerSample()));
     }
+
+    @Test
+    void withLongerProgramItWillPrintSixLines(){
+        assertEquals(6,app.crtLines(longerSample()).lines().count());
+    }
+    @Test
+    void crtShouldPaint(){
+        assertEquals("""
+                        ##..##..##..##..##..##..##..##..##..##..
+                        ###...###...###...###...###...###...###.
+                        ####....####....####....####....####....
+                        #####.....#####.....#####.....#####.....
+                        ######......######......######......####
+                        #######.......#######.......#######.....
+                        """, app.crtLines(longerSample()    )
+        );
+    }
     private List<String> sample(){
         return List.of("noop",
                 "addx 3",
