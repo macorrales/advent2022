@@ -40,12 +40,8 @@ public class App {
                     cpu.run(cpuInstructions.get(i));
                     return pixel;
                 }, String::concat);
-
     }
 
-    record IndexedInstruction(Integer i, Function<Integer, Integer> func) {
-
-    }
 
     Integer strength(List<String> program, Integer cycle) {
         var cpu = new CPU();
