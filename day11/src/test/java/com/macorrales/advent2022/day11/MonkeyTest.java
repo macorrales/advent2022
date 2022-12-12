@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MonkeyTest {
 
@@ -19,6 +19,7 @@ class MonkeyTest {
                         If false: throw to monkey 3
                     """;
         var monkey = Monkey.of(entry);
+        assertEquals(0,monkey.id());
         assertEquals(List.of(79l,98l),monkey.items());
         assertEquals(190, monkey.operator().apply(10l));
         assertEquals(23, monkey.divisor());
@@ -61,10 +62,28 @@ class MonkeyTest {
                                                 If true: throw to monkey 1
                                                 If false: throw to monkey 3
                                             """);
-        assertEquals(3,monkey.turn().size());
-        assertEquals(new Monkey.Throw(1,2080l),monkey.turn().get(0));
-        assertEquals(new Monkey.Throw(3,1200l),monkey.turn().get(1));
-        assertEquals(new Monkey.Throw(3,3136l),monkey.turn().get(2));
+        List<Monkey.Throw> throwList = monkey.turn();
+        assertEquals(3, throwList.size());
+        assertEquals(new Monkey.Throw(1,2080l), throwList.get(0));
+        assertEquals(new Monkey.Throw(3,1200l), throwList.get(1));
+        assertEquals(new Monkey.Throw(3,3136l), throwList.get(2));
+    }
+
+    @Test
+    void shouldReceive(){
+        var monkey = Monkey.of(   """
+                                            Monkey 2:
+                                              Starting items: 79
+                                              Operation: new = old * old
+                                              Test: divisible by 13
+                                                If true: throw to monkey 1
+                                                If false: throw to monkey 3
+                                            """);
+        monkey.throwAtMe(60l);
+        List<Monkey.Throw> throwList = monkey.turn();
+        assertEquals(2, throwList.size());
+        assertEquals(new Monkey.Throw(1,2080l), throwList.get(0));
+        assertEquals(new Monkey.Throw(3,1200l), throwList.get(1));
     }
 
 }

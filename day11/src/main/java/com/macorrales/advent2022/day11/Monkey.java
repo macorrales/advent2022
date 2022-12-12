@@ -1,20 +1,27 @@
 package com.macorrales.advent2022.day11;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
-public record Monkey(List<Long> items, UnaryOperator<Long> operator, long divisor, int positiveTestMonkey,
+public record Monkey(int id,List<Long> items, UnaryOperator<Long> operator, long divisor, int positiveTestMonkey,
                      int negativeTestMonkey) {
     static Monkey  of(String s){
         var lines = s.split("\n");
 
-        return new Monkey(parseItems(lines),
+        return new Monkey(parseId(lines),
+                          parseItems(lines),
                           parseOperator(lines),
                           parseDivisor(lines),
                           parseTrueToMonkey(lines),
                           parseFalseToMonkey(lines));
+    }
+
+    public Monkey throwAtMe(Long item){
+        items.add(item);
+        return this;
+
     }
 
     private static int parseFalseToMonkey(String[] lines){
@@ -43,22 +50,33 @@ public record Monkey(List<Long> items, UnaryOperator<Long> operator, long diviso
     }
 
     private static List<Long> parseItems(String[] lines) {
-        return Arrays.stream(lines[1]
+        return new ArrayList<>(Arrays.stream(lines[1]
                         .replace("  Starting items: ", "")
                         .split(","))
                 .map(String::trim)
                 .map(Long::parseLong)
-                .toList();
+                .toList());
     }
 
+    private static int parseId(String [] lines){
+        return Integer.parseInt(
+                lines[0]
+                .replace("Monkey ","")
+                .replace(":","")
+        );
+
+    }
     public List<Throw> turn() {
-       return items.stream()
+        List<Throw> throwList = items.stream()
                 .map(operator)
-                .map(worry->worry/3l)
-                .map(worry->new Throw((worry%divisor==0)?positiveTestMonkey:negativeTestMonkey,worry))
+                .map(worry -> worry / 3l)
+                .map(worry -> new Throw((worry % divisor == 0) ? positiveTestMonkey : negativeTestMonkey, worry))
                 .toList();
+        items.clear();
+        return throwList;
 
     }
+
     record Throw (Integer monkey, Long worry){
      }
 }
