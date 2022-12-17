@@ -1,11 +1,13 @@
 package com.macorrales.advent2022.day11;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
-public record Monkey(int id,List<Long> items, UnaryOperator<Long> operator, long divisor, int positiveTestMonkey,
+public record Monkey(int id, List<BigInteger> items, UnaryOperator<BigInteger> operator, BigInteger divisor, int positiveTestMonkey,
                      int negativeTestMonkey) {
     static Monkey  of(String s){
         var lines = s.split("\n");
@@ -18,7 +20,7 @@ public record Monkey(int id,List<Long> items, UnaryOperator<Long> operator, long
                           parseFalseToMonkey(lines));
     }
 
-    public Monkey throwAtMe(Long item){
+    public Monkey throwAtMe(BigInteger item){
         items.add(item);
         return this;
 
@@ -30,31 +32,31 @@ public record Monkey(int id,List<Long> items, UnaryOperator<Long> operator, long
     private static int parseTrueToMonkey(String[] lines){
         return Integer.parseInt(lines[4].replace("    If true: throw to monkey ",""));
     }
-    private static long parseDivisor(String[]lines){
-        return Long.parseLong(lines[3].replace("  Test: divisible by ",""));
+    private static BigInteger parseDivisor(String[]lines){
+        return new BigInteger(lines[3].replace("  Test: divisible by ",""));
     }
-    private static UnaryOperator<Long> parseOperator(String[] lines) {
+    private static UnaryOperator<BigInteger> parseOperator(String[] lines) {
         var operationText = lines[2]
                 .replace("  Operation: new = old ", "")
                 .trim();
         if (operationText.equals("* old")) {
-            return (l)->l*l;
+            return (l)->l.multiply(l);
         }
 
         var operatorText = operationText.split(" ")[0];
-        long operand = Long.parseLong(operationText.split(" ")[1]);
+        var operand = new BigInteger(operationText.split(" ")[1]);
         if (operatorText.equals("*")){
-            return (l)->l*operand;
+            return (l)->l.multiply(operand);
         }
-        return (l)->l+operand;
+        return (l)->l.add(operand);
     }
 
-    private static List<Long> parseItems(String[] lines) {
+    private static List<BigInteger> parseItems(String[] lines) {
         return new ArrayList<>(Arrays.stream(lines[1]
                         .replace("  Starting items: ", "")
                         .split(","))
                 .map(String::trim)
-                .map(Long::parseLong)
+                .map(BigInteger::new)
                 .toList());
     }
 
@@ -64,19 +66,22 @@ public record Monkey(int id,List<Long> items, UnaryOperator<Long> operator, long
                 .replace("Monkey ","")
                 .replace(":","")
         );
-
     }
     public List<Throw> turn() {
+        Function<BigInteger, BigInteger> relief = worry -> worry.divide(BigInteger.valueOf(3l));
+        return turn(relief);
+    }
+
+    public List<Throw> turn(Function<BigInteger, BigInteger> relief) {
         List<Throw> throwList = items.stream()
                 .map(operator)
-                .map(worry -> worry / 3l)
-                .map(worry -> new Throw((worry % divisor == 0) ? positiveTestMonkey : negativeTestMonkey, worry))
+                .map(relief)
+                .map(worry -> new Throw((worry.mod(divisor).equals(BigInteger.ZERO)) ? positiveTestMonkey : negativeTestMonkey, worry))
                 .toList();
         items.clear();
         return throwList;
-
     }
 
-    record Throw (Integer monkey, Long worry){
+    record Throw (Integer monkey, BigInteger worry){
      }
 }

@@ -2,6 +2,7 @@ package com.macorrales.advent2022.day11;
 
 import org.junit.jupiter.api.Test;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,9 +21,9 @@ class MonkeyTest {
                     """;
         var monkey = Monkey.of(entry);
         assertEquals(0,monkey.id());
-        assertEquals(List.of(79l,98l),monkey.items());
-        assertEquals(190, monkey.operator().apply(10l));
-        assertEquals(23, monkey.divisor());
+        assertEquals(List.of(BigInteger.valueOf(79l),BigInteger.valueOf(98l)),monkey.items());
+        assertEquals(BigInteger.valueOf(190), monkey.operator().apply(BigInteger.valueOf(10L)));
+        assertEquals(BigInteger.valueOf(23), monkey.divisor());
         assertEquals(2, monkey.positiveTestMonkey());
         assertEquals(3, monkey.negativeTestMonkey());
     }
@@ -37,7 +38,7 @@ class MonkeyTest {
                         If true: throw to monkey 6
                         If false: throw to monkey 7
                     """;
-        assertEquals(17*17,Monkey.of(entry).operator().apply(17l));
+        assertEquals(BigInteger.valueOf(17*17),Monkey.of(entry).operator().apply(BigInteger.valueOf(17l)));
     }
     @Test
     void shouldOldPlusNumberOperation(){
@@ -49,7 +50,7 @@ class MonkeyTest {
                         If true: throw to monkey 0
                         If false: throw to monkey 7
                     """;
-        assertEquals(17+8,Monkey.of(entry).operator().apply(17l));
+        assertEquals(BigInteger.valueOf(17+8),Monkey.of(entry).operator().apply(BigInteger.valueOf(17l)));
     }
 
     @Test
@@ -64,9 +65,9 @@ class MonkeyTest {
                                             """);
         List<Monkey.Throw> throwList = monkey.turn();
         assertEquals(3, throwList.size());
-        assertEquals(new Monkey.Throw(1,2080l), throwList.get(0));
-        assertEquals(new Monkey.Throw(3,1200l), throwList.get(1));
-        assertEquals(new Monkey.Throw(3,3136l), throwList.get(2));
+        assertEquals(new Monkey.Throw(1,BigInteger.valueOf(2080l)), throwList.get(0));
+        assertEquals(new Monkey.Throw(3,BigInteger.valueOf(1200l)), throwList.get(1));
+        assertEquals(new Monkey.Throw(3,BigInteger.valueOf(3136l)), throwList.get(2));
     }
 
     @Test
@@ -79,11 +80,11 @@ class MonkeyTest {
                                                 If true: throw to monkey 1
                                                 If false: throw to monkey 3
                                             """);
-        monkey.throwAtMe(60l);
+        monkey.throwAtMe(BigInteger.valueOf(60l));
         List<Monkey.Throw> throwList = monkey.turn();
         assertEquals(2, throwList.size());
-        assertEquals(new Monkey.Throw(1,2080l), throwList.get(0));
-        assertEquals(new Monkey.Throw(3,1200l), throwList.get(1));
+        assertEquals(new Monkey.Throw(1,BigInteger.valueOf(2080l)), throwList.get(0));
+        assertEquals(new Monkey.Throw(3,BigInteger.valueOf(1200l)), throwList.get(1));
     }
 
 }
