@@ -9,6 +9,9 @@ import java.util.function.UnaryOperator;
 
 public record Monkey(int id, List<BigInteger> items, UnaryOperator<BigInteger> operator, BigInteger divisor, int positiveTestMonkey,
                      int negativeTestMonkey) {
+
+    public static final BigInteger LEAST_COMMON_MULTIPLIER = BigInteger.valueOf(11*2*5*17*19*7*3*13*23);
+
     static Monkey  of(String s){
         var lines = s.split("\n");
 
@@ -76,7 +79,8 @@ public record Monkey(int id, List<BigInteger> items, UnaryOperator<BigInteger> o
         List<Throw> throwList = items.stream()
                 .map(operator)
                 .map(relief)
-                .map(worry -> new Throw((worry.mod(divisor).equals(BigInteger.ZERO)) ? positiveTestMonkey : negativeTestMonkey, worry))
+                .map(worry ->
+                        new Throw((worry.mod(divisor).equals(BigInteger.ZERO)) ? positiveTestMonkey : negativeTestMonkey, worry.mod(LEAST_COMMON_MULTIPLIER)))
                 .toList();
         items.clear();
         return throwList;

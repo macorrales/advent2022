@@ -1,6 +1,5 @@
 package com.macorrales.advent2022.day11;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -35,43 +34,42 @@ public class AppTest {
                 BigInteger.valueOf(1046l)).toArray(), app.monkeys.get(1).items().toArray());
         assertTrue(app.monkeys.get(2).items().isEmpty());
         assertTrue(app.monkeys.get(3).items().isEmpty());
-        assertEquals(2, app.inspections.get(app.monkeys.get(0).id()));
+        assertEquals(BigInteger.TWO, app.inspections.get(app.monkeys.get(0).id()));
     }
 
     @Test
     void playSampleGame() throws IOException {
         app.load(sample());
         app.playGame();
-        assertEquals(101, app.inspections.get(app.monkeys.get(0).id()));
-        assertEquals(95, app.inspections.get(app.monkeys.get(1).id()));
-        assertEquals(7, app.inspections.get(app.monkeys.get(2).id()));
-        assertEquals(105, app.inspections.get(app.monkeys.get(3).id()));
+        assertEquals(BigInteger.valueOf(101), app.inspections.get(app.monkeys.get(0).id()));
+        assertEquals(BigInteger.valueOf(95), app.inspections.get(app.monkeys.get(1).id()));
+        assertEquals(BigInteger.valueOf(7), app.inspections.get(app.monkeys.get(2).id()));
+        assertEquals(BigInteger.valueOf(105), app.inspections.get(app.monkeys.get(3).id()));
     }
 
     @Test
     void monkeyBusinessForSampleShouldMatch() throws IOException {
         app.load(sample());
         app.playGame();
-        assertEquals(10605, app.monkeyBusiness());
+        assertEquals(BigInteger.valueOf(10605), app.monkeyBusiness());
     }
 
     @Test
     void secondPartInspections() throws IOException {
         app.load(sample());
         app.playSecondPart();
-        assertEquals(52166, app.inspections.get(app.monkeys.get(0).id()));
-        assertEquals(47830, app.inspections.get(app.monkeys.get(1).id()));
-        assertEquals(1938, app.inspections.get(app.monkeys.get(2).id()));
-        assertEquals(52013, app.inspections.get(app.monkeys.get(3).id()));
+        assertEquals(BigInteger.valueOf(52166), app.inspections.get(app.monkeys.get(0).id()));
+        assertEquals(BigInteger.valueOf(47830), app.inspections.get(app.monkeys.get(1).id()));
+        assertEquals(BigInteger.valueOf(1938), app.inspections.get(app.monkeys.get(2).id()));
+        assertEquals(BigInteger.valueOf(52013), app.inspections.get(app.monkeys.get(3).id()));
 
     }
 
     @Test
-    @Disabled
     void secondPartForSampleShouldMatch() throws IOException {
         app.load(sample());
         app.playSecondPart();
-        assertEquals(2713310158l, app.monkeyBusiness());
+        assertEquals(BigInteger.valueOf(2713310158l), app.monkeyBusiness());
     }
 
     String sample() throws IOException {

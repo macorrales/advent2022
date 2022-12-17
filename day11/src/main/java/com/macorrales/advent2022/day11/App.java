@@ -18,7 +18,7 @@ public class App {
 
     public static final int ROUNDS_IN_GAME = 20;
     List<Monkey> monkeys;
-    Map<Integer, Long> inspections = new HashMap<>();
+    Map<Integer, BigInteger> inspections = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         String input = Files.readString(Path.of(args[0]));
@@ -34,7 +34,7 @@ public class App {
 
     public void playSecondPart(){
         for (int i = 0; i< 10000; i++){
-            playRound(l->l);
+            playRound(l -> l);
         }
 
     }
@@ -56,7 +56,7 @@ public class App {
         monkeys.forEach(
                 (monkey) -> {
                     List<Monkey.Throw> throwList = monkey.turn(relief);
-                    inspections.put(monkey.id(), inspections.getOrDefault(monkey.id(), 0l) + throwList.size());
+                    inspections.put(monkey.id(), inspections.getOrDefault(monkey.id(), BigInteger.ZERO).add(BigInteger.valueOf(throwList.size())));
                     throwList.forEach((send) -> {
                                 Monkey theMonkey = monkeys.get(send.monkey());
                                 monkeys.set(send.monkey(), theMonkey.throwAtMe(send.worry()));
@@ -66,11 +66,11 @@ public class App {
         );
     }
 
-    public long monkeyBusiness() {
+    public BigInteger monkeyBusiness() {
         return inspections.values()
                 .stream()
                 .sorted(Comparator.reverseOrder())
                 .limit(2)
-                .reduce(1l,(a,b)->a*b);
+                .reduce(BigInteger.ONE,(a,b)->a.multiply(b));
     }
 }
